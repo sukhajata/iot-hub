@@ -1,0 +1,136 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: 'deed03f5-81ce-40ab-ace4-abc67035b251'
+  imageRepository: 'devicewifitokafka'
+  containerRegistry: 'powerpilotregistry.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  tag: '$(Build.BuildId)'
+  
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+          dev-$(tag)
+
+- stage: deploytestpower
+  displayName: Deploy to testpower
+  jobs:
+  - deployment: DeployTestpower
+    displayName: deploy testpower
+    pool:
+      vmImage: $(vmImageName)
+    # creates an environment if it doesn't exist. Environment should already exist with approval check created.
+    environment: 'Testpower.tenant-testpower'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+
+          - task: HelmInstaller@1
+            displayName: 'Install Helm 3.1.2'
+            inputs:
+              helmVersionToInstall: 3.1.2
+
+          - task: HelmDeploy@0
+            displayName: 'helm upgrade testpower'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              namespace: 'tenant-testpower'
+              command: upgrade
+              chartType: FilePath
+              chartPath: '$(Build.SourcesDirectory)/devicewifitokafka-helm'
+              releaseName: 'devicewifitokafka-testpower'
+              overrideValues: 'image.tag=$(Build.BuildId),tenantName=testpower,tenantNamespace=tenant-testpower,kafkaNamespace=dev'
+              valueFile: '$(Build.SourcesDirectory)/devicewifitokafka-helm/values.yaml'
+
+- stage: deploy
+  displayName: Deploy to akstest
+  jobs:
+  - deployment: DeployPowernet
+    displayName: deploy powernet
+    pool:
+      vmImage: $(vmImageName)
+    # creates an environment if it doesn't exist. Environment should already exist with approval check created.
+    environment: 'Powernet.tenant-powernet'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+
+          - task: HelmInstaller@1
+            displayName: 'Install Helm 3.1.2'
+            inputs:
+              helmVersionToInstall: 3.1.2
+
+          - task: HelmDeploy@0
+            displayName: 'helm upgrade powernet'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              #kubernetesServiceConnection: 'akstest-tenant-fakepower'
+              namespace: 'tenant-powernet'
+              command: upgrade
+              chartType: FilePath
+              chartPath: '$(Build.SourcesDirectory)/devicewifitokafka-helm'
+              releaseName: 'devicewifitokafka-powernet'
+              overrideValues: 'image.tag=$(Build.BuildId),tenantName=powernet,tenantNamespace=tenant-powernet,kafkaNamespace=prod'
+              valueFile: '$(Build.SourcesDirectory)/devicewifitokafka-helm/values.yaml'
+
+  - deployment: DeployPowerco
+    displayName: deploy powerco
+    pool:
+      vmImage: $(vmImageName)
+    # creates an environment if it doesn't exist. Environment should already exist with approval check created.
+    environment: 'Powerco.tenant-powerco'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+
+          - task: HelmInstaller@1
+            displayName: 'Install Helm 3.1.2'
+            inputs:
+              helmVersionToInstall: 3.1.2
+
+          - task: HelmDeploy@0
+            displayName: 'helm upgrade powerco'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              #kubernetesServiceConnection: 'akstest-tenant-fakepower'
+              namespace: 'tenant-powerco'
+              command: upgrade
+              chartType: FilePath
+              chartPath: '$(Build.SourcesDirectory)/devicewifitokafka-helm'
+              releaseName: 'devicewifitokafka-powerco'
+              overrideValues: 'image.tag=$(Build.BuildId),tenantName=powerco,tenantNamespace=tenant-powerco,kafkaNamespace=dev'
+              valueFile: '$(Build.SourcesDirectory)/devicewifitokafka-helm/values.yaml'
+              #force: true
