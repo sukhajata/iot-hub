@@ -1,0 +1,357 @@
+﻿syntax = "proto3";
+
+package ppuplink;
+
+option go_package = "github.com/sukhajata/ppmessage/ppuplink";
+
+message AlarmMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    uint32 phaseid = 3;
+    string alarmtype = 4;
+    double value = 5;
+}
+
+message CircuitEnergyMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    uint32 circuitnumber = 3;
+    double realnetenergy_phase_0 = 4;
+    double reactivenetenergy_phase_0 = 5;
+    double realnetenergy_phase_1 = 6;
+    double reactivenetenergy_phase_1 = 7;
+    double realnetenergy_phase_2 = 8;
+    double reactivenetenergy_phase_2 = 9;
+}
+
+message CircuitLoadMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    uint32 circuitnumber = 3;
+    double currentsma_phase_0 = 4;
+    double currentsma_phase_1 = 5;
+    double currentsma_phase_2 = 6;
+    double poweractivesma_phase_0 = 7;
+    double poweractivesma_phase_1 = 8;
+    double poweractivesma_phase_2 = 9;
+    double powerreactivesma_phase_0 = 10;
+    double powerreactivesma_phase_1 = 11;
+    double powerreactivesma_phase_2 = 12;
+    double powerapparentsma_phase_0 = 13;
+    double powerapparentsma_phase_1 = 14;
+    double powerapparentsma_phase_2 = 15;
+    double poweractivemax_phase_0 = 16;
+    double poweractivemax_phase_1 = 17;
+    double poweractivemax_phase_2 = 18;
+    double powerreactivemax_phase_0 = 19;
+    double powerreactivemax_phase_1 = 20;
+    double powerreactivemax_phase_2 = 21;
+    double powerapparentmax_phase_0 = 22;
+    double powerapparentmax_phase_1 = 23;
+    double powerapparentmax_phase_2 = 24;
+    double poweractivemin_phase_0 = 25;
+    double poweractivemin_phase_1 = 26;
+    double poweractivemin_phase_2 = 27;
+    double powerreactivemin_phase_0 = 28;
+    double powerreactivemin_phase_1 = 29;
+    double powerreactivemin_phase_2 = 30;
+    double powerapparentmin_phase_0 = 31;
+    double powerapparentmin_phase_1 = 32;
+    double powerapparentmin_phase_2 = 33;
+}
+
+message ConfigUplinkMessage {
+    string deviceeui = 1;
+    uint32 slot = 2;
+    uint32 index = 3;
+    string firmware = 4;
+    bytes value = 5;
+}
+
+message EnergyMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    uint32 phaseid = 3;
+    double energyexportreactive = 4;
+    double energyimportreactive = 5;
+    double energyexportreal = 6;
+    double energyimportreal = 7;
+}
+
+message GatewayMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    string gatewayid = 3;
+    sint32 rssi = 4;
+    sint32 snr = 5;
+    double latitude = 6;
+    double longitude = 7;
+    double altitude = 8;
+    string gatewaytimesent = 9;
+    uint64 frequency = 10;
+    string rawdata = 11;
+}
+
+message GeoscanMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    string bssid = 3;
+    string rssid = 4;
+}
+
+message HarmonicsLowerMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    double voltage_r = 3;
+    double current_r = 4;
+    double voltage_w = 5;
+    double current_w = 6;
+    double voltage_b = 7;
+    double current_b = 8;
+    double activepower = 9;
+    double reactivepower = 10;
+    double thdv_r = 11;
+    double thdi_r = 12;
+    double thirdharmonic_r = 13;
+    double fifthharmonic_r = 14;
+    double seventhharmonic_r = 15;
+    double thdv_w = 16;
+    double thdi_w = 17;
+    double thirdharmonic_w = 18;
+    double fifthharmonic_w = 19;
+    double seventhharmonic_w = 20;
+    double thdv_b = 21;
+    double thdi_b = 22;
+    double thirdharmonic_b = 23;
+    double fifthharmonic_b = 24;
+    double seventhharmonic_b = 25;
+}
+
+message HarmonicsUpperMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    double voltage_r = 3;
+    double current_r = 4;
+    double voltage_w = 5;
+    double current_w = 6;
+    double voltage_b = 7;
+    double current_b = 8;
+    double activepower = 9;
+    double reactivepower = 10;
+    double thdv_r = 11;
+    double thdi_r = 12;
+    double ninthharmonic_r = 13;
+    double eleventhharmonic_r = 14;
+    double thirteenthharmonic_r = 15;
+    double thdv_w = 16;
+    double thdi_w = 17;
+    double ninthharmonic_w = 18;
+    double eleventhharmonic_w = 19;
+    double thirteenthharmonic_w = 20;
+    double thdv_b = 21;
+    double thdi_b = 22;
+    double ninthharmonic_b = 23;
+    double eleventhharmonic_b = 24;
+    double thirteenthharmonic_b = 25;
+}
+
+message HVAlarmMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    string alarmtype = 3;
+    double imbalance = 4;
+    double voltage_r = 5;
+    double voltage_w = 6;
+    double voltage_b = 7;
+    double voltage_ab = 8;
+    double voltage_bc = 9;
+    double voltage_ca = 10;
+    double angle_a = 11;
+    double angle_b = 12;
+    double angle_c = 13;
+}
+
+message InstMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    uint32 phaseid = 3;
+    double activepower = 4;
+    double reactivepower = 5;
+    double current = 6;
+    double voltage = 7;
+}
+
+message InstP2PMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    double voltage_r = 3;
+    double current_r = 4;
+    double voltage_w = 5;
+    double current_w = 6;
+    double voltage_b = 7;
+    double current_b = 8;
+    double activepower = 9;
+    double reactivepower = 10;
+    double thdv_r = 11;
+    double thdi_r = 12;
+    double thdv_w = 13;
+    double thdi_w = 14;
+    double thdv_b = 15;
+    double thdi_b = 16;
+    double voltage_ab = 17;
+    double voltage_bc = 18;
+    double voltage_ca = 19;
+    double currentneutral = 20;
+}
+
+message PQMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    uint32 phaseid = 3;
+    double voltagemax = 4;
+    double currentmax = 5;
+    double poweractivemax = 6;
+    double powerreactivemax = 7;
+    double thdvmax = 8;
+    double voltagesma = 9;
+    double currentsma = 10;
+    double poweractivesma = 11;
+    double powerreactivesma = 12;
+    double thdvsma = 13;
+    double voltagemin = 14;
+    double currentmin = 15;
+    double poweractivemin = 16;
+    double powerreactivemin = 17;
+    double thdvmin = 18;
+    int32 momentarysag = 19;
+    int32 momentaryswell = 20;
+    int32 temporarysag = 21;
+    int32 temporaryswell = 22;
+    int32 sustainedundervoltage = 23;
+    int32 sustainedovervoltage = 24;
+    int32 prolongedundervoltage = 25;
+    int32 prolongedovervoltage = 26;
+    double thdisma = 27;
+    double neutralcurrentsma = 28;
+    double neutralcurrentmax = 29;
+    double powerapparentsma = 30;
+    double powerapparentmax = 31;
+    double powerapparentmin = 32;
+}
+
+message PQEventsMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    uint32 phaseid = 3;
+    double retainedvoltage = 4;
+    uint32 pqeventtype = 5;
+    uint32 pqeventduration = 6;
+}
+
+message ProcessedMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    uint32 phaseid = 3;
+    double loopimpedance = 4;
+    sint32 rssi = 5;
+    sint32 snr = 6;
+    uint32 alivecnt = 7;
+    int32 saifi = 8;
+    int32 memfree = 9;
+    uint32 tempcnt = 10;
+    uint32 sustainedcnt = 11;
+    uint32 prolongedcnt = 12;
+    int32 mdi = 13;
+    uint64 mditimestamp = 14;
+    double voltageunbalancefactor = 15;
+    double stateofhealth = 16;
+}
+
+message ResendResponseMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    uint32 messageid = 3;
+    uint32 messagetype = 4;
+    int32 spare = 5;
+    int32 state = 6;
+    int32 error = 7;
+}
+
+message S11PQMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    uint32 phaseid = 3;
+    uint32 address = 4;
+    double voltagemax = 5;
+    double currentmax = 6;
+    double poweractivemax = 7;
+    double powerreactivemax = 8;
+    double thdvmax = 9;
+    double voltagesma = 10;
+    double currentsma = 11;
+    double poweractivesma = 12;
+    double powerreactivesma = 13;
+    double thdvsma = 14;
+    double voltagemin = 15;
+    double currentmin = 16;
+    double poweractivemin = 17;
+    double powerreactivemin = 18;
+    double thdvmin = 19;
+    int32 momentarysag = 20;
+    int32 momentaryswell = 21;
+    int32 temporarysag = 22;
+    int32 temporaryswell = 23;
+    int32 sustainedundervoltage = 24;
+    int32 sustainedovervoltage = 25;
+    int32 prolongedundervoltage = 26;
+    int32 prolongedovervoltage = 27;
+}
+
+message TimeSyncRequestMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+}
+
+message UplinkMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    sint32 rssi = 3;
+    sint32 snr = 4;
+    uint64 frequency = 5;
+    int32 dr = 6;
+    uint64 fctn = 7;
+    string rawdata = 8;
+    uint32 messageid = 9;
+    uint32 messagetype = 10;
+    uint32 resent = 11;
+}
+
+message VoltageStatsMessage {
+    string deviceeui = 1;
+    uint64 timesent = 2;
+    uint32 phaseid = 3;
+    double mean = 4;
+    double variance = 5;
+    string starttime = 6;
+    string stoptime = 7;
+    int64 h0_213 = 8;
+    int64 h213_215 = 9;
+    int64 h215_217 = 10;
+    int64 h217_219 = 11;
+    int64 h219_221 = 12;
+    int64 h221_223 = 13;
+    int64 h223_225 = 14;
+    int64 h225_227 = 15;
+    int64 h227_229 = 16;
+    int64 h229_231 = 17;
+    int64 h231_233 = 18;
+    int64 h233_235 = 19;
+    int64 h235_237 = 20;
+    int64 h237_239 = 21;
+    int64 h239_241 = 22;
+    int64 h241_243 = 23;
+    int64 h243_245 = 24;
+    int64 h245_247 = 25;
+    int64 h247_249 = 26;
+    int64 h249_300 = 27;
+}

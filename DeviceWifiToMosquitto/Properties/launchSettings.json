@@ -4,8 +4,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:40729",
-      "sslPort": 44350
+      "applicationUrl": "http://localhost:33358",
+      "sslPort": 44366
     }
   },
   "profiles": {
@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "DeviceWifiToKafka": {
+    "DeviceWifiToMosquitto": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",

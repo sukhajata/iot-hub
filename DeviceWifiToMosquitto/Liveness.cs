@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace DeviceWifiToKafka
+namespace DeviceWifiToMosquitto
 {
     public class Liveness : IHealthCheck
     {

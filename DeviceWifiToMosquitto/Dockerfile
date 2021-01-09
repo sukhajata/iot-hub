@@ -6,17 +6,17 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["DeviceWifiToKafka.csproj", ""]
+COPY ["DeviceWifiToMosquitto.csproj", ""]
 COPY ["NuGet.Config", "./NuGet.Config"]
-RUN dotnet restore "./DeviceWifiToKafka.csproj"
+RUN dotnet restore "./DeviceWifiToMosquitto.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "DeviceWifiToKafka.csproj" -c Release -o /app/build
+RUN dotnet build "DeviceWifiToMosquitto.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "DeviceWifiToKafka.csproj" -c Release -o /app/publish
+RUN dotnet publish "DeviceWifiToMosquitto.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "DeviceWifiToKafka.dll"]
+ENTRYPOINT ["dotnet", "DeviceWifiToMosquitto.dll"]

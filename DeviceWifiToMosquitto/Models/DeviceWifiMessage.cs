@@ -2,7 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 
-namespace DeviceWifiToKafka
+namespace DeviceWifiToMosquitto.Models
 {
     public partial class DeviceWifiMessage
     {
@@ -18,7 +18,7 @@ namespace DeviceWifiToKafka
         public static DeviceWifiMessage FromJson(string json) => JsonConvert.DeserializeObject<DeviceWifiMessage>(json, Converter.Settings);
     }
 
-
+    /*
     public static class Serialize
     {
         public static string ToJson(this DeviceWifiMessage self) => JsonConvert.SerializeObject(self, Converter.Settings);
@@ -32,5 +32,5 @@ namespace DeviceWifiToKafka
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.None
         };
-    }
+    }*/
 }

@@ -3,11 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace DeviceWifiToKafka
+namespace DeviceWifiToMosquitto
 {
     public class Readiness : IHealthCheck
     {
-        public static bool READY = false;
+        public static bool READY = true;
 
 
         public Task<HealthCheckResult> CheckHealthAsync(
