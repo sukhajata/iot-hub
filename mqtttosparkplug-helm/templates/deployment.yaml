@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqtttosparkplug
+  namespace: {{ .Values.tenantNamespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: mqtttosparkplug
+  template:
+    metadata:
+      labels:
+        app: mqtttosparkplug
+    spec:
+      containers:
+      - name: mqtttosparkplug
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        resources:
+          {{- toYaml .Values.resources  | nindent 10 }}
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          timeoutSeconds: 1
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 80
+          initialDelaySeconds: 20
+          periodSeconds: 20
+          timeoutSeconds: 2
+        envFrom:
+        - secretRef:
+            name: {{ .Release.Name }}-secret
+
