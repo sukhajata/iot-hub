@@ -10,7 +10,7 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '2c7d3572-4914-4bf7-bd92-884f8b52bd13'
+  dockerRegistryServiceConnection: ''
   imageRepository: 'mqtttosparkplug'
   containerRegistry: 'powerpilotregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/MqttToSparkPlug/Dockerfile'
